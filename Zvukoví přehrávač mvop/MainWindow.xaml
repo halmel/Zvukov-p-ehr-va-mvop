@@ -4,12 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Zvukoví_přehrávač_mvop"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
 
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Background" Value="#007ACC"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#007ACC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -29,19 +38,30 @@
             <RowDefinition/>
             <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
-        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1">
+        <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan="1" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Name="Settings_button" Click="Settings_button_Click">
+            <StackPanel HorizontalAlignment="Center">
+                <materialDesign:PackIcon Kind="Settings" Width="auto" Height="30"/>
+            </StackPanel>
         </Button>
+        <Slider IsMoveToPointEnabled="True" x:Name="VolumeSlider" Minimum="0" Maximum="1" Value="0.5" MouseLeftButtonDown="VolumeSlider_MouseLeftButtonDown" MouseMove="VolumeBar_MouseMove" MouseLeftButtonUp="VolumeBar_MouseLeftButtonUp" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"  Margin="15,0,0,0">
+            <Slider.LayoutTransform>
+                <RotateTransform Angle="-90"/>
+            </Slider.LayoutTransform>
+        </Slider>
 
 
 
-        <ListView ItemsSource="{Binding Songs}" Background="AliceBlue" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="7">
+
+
+
+        <ListView ItemsSource="{Binding Songs}" Background="AliceBlue" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="7" Name="song_ListView"   GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
             <ListView.View>
                 <GridView >
-                    <GridViewColumn Header="Název" DisplayMemberBinding="{Binding Title}"  />
-                    <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Author}"  />
+                    <GridViewColumn Header="Název" DisplayMemberBinding="{Binding Title}" />
+                    <GridViewColumn Header="Autor" DisplayMemberBinding="{Binding Author}"/>
                     <GridViewColumn Header="Album" DisplayMemberBinding="{Binding Album}"  />
-                    <GridViewColumn Header="Žánr" DisplayMemberBinding="{Binding Genre}"  />
-                    <GridViewColumn Header="Délka (s)" DisplayMemberBinding="{Binding DurationInSeconds}"  />
+                    <GridViewColumn Header="Žánr" DisplayMemberBinding="{Binding Genre}"/>
+                    <GridViewColumn Header="Délka (min)" DisplayMemberBinding="{Binding DurationInMinutes}"  />
                     <GridViewColumn Header="Hodnocení" DisplayMemberBinding="{Binding Rating}"  />
                     <GridViewColumn Header="Počet přehrání" DisplayMemberBinding="{Binding PlayCount}"  />
                     <GridView.ColumnHeaderContainerStyle>
@@ -53,7 +73,55 @@
                     </GridView.ColumnHeaderContainerStyle>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListViewItem_PreviewMouseLeftButtonDown" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="9" Grid.Row="2" Width="800">
+            <!-- Top Song Progress Bar -->
+            <ProgressBar x:Name="progressBar" Value="50" HorizontalAlignment="Left" VerticalAlignment="Top" Width="800" Height="20" MouseLeftButtonDown="ProgressBar_MouseLeftButtonDown" MouseMove="ProgressBar_MouseMove" MouseLeftButtonUp="ProgressBar_MouseLeftButtonUp"/>
+
+
+
+            <!-- Buttons -->
+            <!-- Buttons -->
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <TextBlock Width="210" Text="{Binding SelectedItem.Title, ElementName=song_ListView}" Panel.ZIndex="10" TextWrapping="Wrap"/>
+                    <TextBlock Width="100" Text="{Binding SelectedItem.Author, ElementName=song_ListView}" Panel.ZIndex="10" TextWrapping="Wrap" Margin="0,0,0,10"/>
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+                    <Button x:Name="previousButton" Margin="5" Click="previousButton_Click">
+                        <materialDesign:PackIcon Kind="SkipPrevious" Width="20" Height="20"/>
+                    </Button>
+                    <Button x:Name="stopButton" Margin="5" Click="stopButton_Click">
+                        <materialDesign:PackIcon Kind="Stop" Width="20" Height="20"/>
+                    </Button>
+                    <Button x:Name="nextButton" Margin="5" Click="nextButton_Click">
+                        <materialDesign:PackIcon Kind="SkipNext" Width="20" Height="20"/>
+                    </Button>
+                    <!-- Shuffle Buttons -->
+                    <Button x:Name="shuffleButton1" Content="Random" Margin="5" Click="shuffleButton1_Click"/>
+                    <Button x:Name="shuffleButton2" Content="Less Played" Margin="5" Click="shuffleButton2_Click"/>
+                    <Button x:Name="shuffleButton3" Content="High Rated" Margin="5" Click="shuffleButton3_Click"/>
+                    <Button x:Name="shuffleButton4" Content="Unrated" Margin="5" Click="shuffleButton4_Click"/>
+
+
+                    <!-- Like/Dislike Buttons -->
+                    <Button x:Name="likeButton" Margin="5" Click="likeButton_Click">
+                        <materialDesign:PackIcon Kind="ThumbUp" Width="20" Height="20"/>
+                    </Button>
+                    <Button x:Name="dislikeButton" Margin="5" Click="dislikeButton_Click">
+                        <materialDesign:PackIcon Kind="ThumbDown" Width="20" Height="20"/>
+                    </Button>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
 
 
 
