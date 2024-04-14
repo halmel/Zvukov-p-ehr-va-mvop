@@ -48,12 +48,6 @@
                 <RotateTransform Angle="-90"/>
             </Slider.LayoutTransform>
         </Slider>
-
-
-
-
-
-
         <ListView ItemsSource="{Binding Songs}" Background="AliceBlue" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="7" Name="song_ListView"   GridViewColumnHeader.Click="GridViewColumnHeaderClickedHandler">
             <ListView.View>
                 <GridView >
@@ -80,21 +74,12 @@
             </ListView.ItemContainerStyle>
         </ListView>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.ColumnSpan="9" Grid.Row="2" Width="800">
-            <!-- Top Song Progress Bar -->
             <ProgressBar x:Name="progressBar" Value="50" HorizontalAlignment="Left" VerticalAlignment="Top" Width="800" Height="20" MouseLeftButtonDown="ProgressBar_MouseLeftButtonDown" MouseMove="ProgressBar_MouseMove" MouseLeftButtonUp="ProgressBar_MouseLeftButtonUp"/>
-
-
-
-            <!-- Buttons -->
-            <!-- Buttons -->
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,0,15,0">
-
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left">
                     <TextBlock Width="210" Text="{Binding SelectedItem.Title, ElementName=song_ListView}" Panel.ZIndex="10" TextWrapping="Wrap"/>
                     <TextBlock Width="100" Text="{Binding SelectedItem.Author, ElementName=song_ListView}" Panel.ZIndex="10" TextWrapping="Wrap" Margin="0,0,0,10"/>
                 </StackPanel>
-
-
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
                     <Button x:Name="previousButton" Margin="5" Click="previousButton_Click">
                         <materialDesign:PackIcon Kind="SkipPrevious" Width="20" Height="20"/>
@@ -105,14 +90,10 @@
                     <Button x:Name="nextButton" Margin="5" Click="nextButton_Click">
                         <materialDesign:PackIcon Kind="SkipNext" Width="20" Height="20"/>
                     </Button>
-                    <!-- Shuffle Buttons -->
                     <Button x:Name="shuffleButton1" Content="Random" Margin="5" Click="shuffleButton1_Click"/>
                     <Button x:Name="shuffleButton2" Content="Less Played" Margin="5" Click="shuffleButton2_Click"/>
                     <Button x:Name="shuffleButton3" Content="High Rated" Margin="5" Click="shuffleButton3_Click"/>
                     <Button x:Name="shuffleButton4" Content="Unrated" Margin="5" Click="shuffleButton4_Click"/>
-
-
-                    <!-- Like/Dislike Buttons -->
                     <Button x:Name="likeButton" Margin="5" Click="likeButton_Click">
                         <materialDesign:PackIcon Kind="ThumbUp" Width="20" Height="20"/>
                     </Button>
@@ -122,19 +103,5 @@
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     </Grid>
 </Window>
