@@ -7,7 +7,7 @@ namespace Zvukoví_přehrávač_mvop
 {
     public partial class SettingsDialog : Window
     {
-        private const string FilePath = "..\\..\\..\\folderPaths.json";
+        private const string FilePath = "folderPaths.json";
         public string PathToSongFolder { get; set; }
 
         public SettingsDialog()

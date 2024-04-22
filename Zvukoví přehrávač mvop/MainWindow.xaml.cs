@@ -235,7 +235,7 @@ namespace Zvukoví_přehrávač_mvop
             }
         }
 
-        private const string FilePath = "..\\..\\..\\folderPaths.json";
+        private const string FilePath = "folderPaths.json";
 
         public static void SaveFolderPaths(List<string> paths)
         {
@@ -252,9 +252,10 @@ namespace Zvukoví_přehrávač_mvop
                 FolderPaths folderPaths = JsonConvert.DeserializeObject<FolderPaths>(json);
                 if (folderPaths != null)
                 {
-                return folderPaths.Paths;
+                    return folderPaths.Paths;
 
-                }else 
+                }
+                else
                 {
                     string musicFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                     return new List<string> { musicFolderPath };
@@ -266,11 +267,11 @@ namespace Zvukoví_přehrávač_mvop
         private static void SaveSongs(ObservableCollection<Song> songs)
         {
             string json = JsonConvert.SerializeObject(songs);
-            System.IO.File.WriteAllText("..\\..\\..\\songs.json", json);
+            System.IO.File.WriteAllText("songs.json", json);
         }
         private static ObservableCollection<Song> LoadSongs()
         {
-            string filePath = "..\\..\\..\\songs.json";
+            string filePath = "songs.json";
             ObservableCollection<Song> songs = new ObservableCollection<Song>();
 
             try
@@ -490,7 +491,6 @@ namespace Zvukoví_přehrávač_mvop
             progressBar.Value = percentClicked * progressBar.Maximum;
             mediaPlayer.Position = TimeSpan.FromSeconds(progressBar.Value);
         }
-
         private void ProgressBar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             isDragging = false;
@@ -518,13 +518,6 @@ namespace Zvukoví_přehrávač_mvop
                 }
             }
         }
-
-
-
-
-
-
-
         private void Settings_button_Click(object sender, RoutedEventArgs e)
         {
             SettingsDialog settingsDialog = new SettingsDialog();
@@ -538,8 +531,6 @@ namespace Zvukoví_přehrávač_mvop
                 ReloadMainWindow();
             }
         }
-
-
         public void ReloadMainWindow()
         {
             InitializeMediaPlayer();
@@ -551,19 +542,12 @@ namespace Zvukoví_přehrávač_mvop
             song_ListView.ItemsSource = Songs;
 
         }
-
-
-
-
-
         private void UpdateSongFolder(string newPath)
         {
             SaveFolderPaths(new List<string> { newPath });
 
             Songs = LoadSongsFromFolders();
         }
-
-
         private void previousButton_Click(object sender, RoutedEventArgs e)
         {
             if (currentlyPlayingSong != null)
@@ -591,9 +575,6 @@ namespace Zvukoví_přehrávač_mvop
                 PlaySong(selectedSong);
             }
         }
-
-
-
 
         private void nextButton_Click(object sender, RoutedEventArgs e)
         {
@@ -662,9 +643,10 @@ namespace Zvukoví_přehrávač_mvop
                 shuffledSongs = Songs.OrderBy(x => x == currentlyPlayingSong ? 0 : (biasFunction(x) + rand.NextDouble() * 0.01)).ToList();
 
                 PlaySong(currentlyPlayingSong);
-            } else 
-            { 
-            return;
+            }
+            else
+            {
+                return;
             }
 
             Songs = new ObservableCollection<Song>(shuffledSongs);
@@ -680,7 +662,7 @@ namespace Zvukoví_přehrávač_mvop
             {
                 shuffledSongs = Songs.OrderBy(x => x == currentlyPlayingSong ? 0 : rand.Next()).ToList();
             }
-            else if (Songs.Count >0)
+            else if (Songs.Count > 0)
             {
                 var randomIndex = rand.Next(0, Songs.Count);
                 currentlyPlayingSong = Songs[randomIndex];
@@ -779,11 +761,11 @@ namespace Zvukoví_přehrávač_mvop
         {
             var volumeSetting = new { Volume = VolumeSlider.Value };
             string json = JsonConvert.SerializeObject(volumeSetting);
-            System.IO.File.WriteAllText("..\\..\\..\\settings.json", json);
+            System.IO.File.WriteAllText("settings.json", json);
         }
         private void SetVolumeFromSettings()
         {
-            string settingsFilePath = "..\\..\\..\\settings.json";
+            string settingsFilePath = "settings.json";
 
             if (System.IO.File.Exists(settingsFilePath))
             {
