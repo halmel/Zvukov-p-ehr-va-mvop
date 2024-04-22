@@ -210,22 +210,23 @@ namespace Zvukoví_přehrávač_mvop
         }
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
+
             switch (e.Key)
             {
                 case Key.MediaPreviousTrack:
-                    previousButton_Click(null, null);
+                    previousButton_Click(this,null);
                     break;
                 case Key.MediaNextTrack:
-                    nextButton_Click(null, null);
+                    nextButton_Click(this, null);
                     break;
                 case Key.MediaStop:
-                    stopButton_Click(null, null);
+                    stopButton_Click(this, null);
                     break;
                 case Key.Add:
-                    likeButton_Click(null, null);
+                    likeButton_Click(this, null);
                     break;
                 case Key.Subtract:
-                    dislikeButton_Click(null, null);
+                    dislikeButton_Click(this, null);
                     break;
                 case Key.VolumeMute:
                     UpdateVolume(0);
